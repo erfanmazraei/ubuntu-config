@@ -1,0 +1,15 @@
+network:
+    ethernets:
+        ens160:
+            dhcp4: no
+            addresses: [ip/netmask]
+            gateway4: ip
+            nameservers:
+                addresses: [4.2.2.4,8.8.8.8]
+        ens192:
+            dhcp4: no
+            addresses: [ip/netmask]
+            gateway4: ip
+            nameservers:
+                addresses: [4.2.2.4,8.8.8.8]
+    version: 2
