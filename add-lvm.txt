@@ -65,3 +65,4 @@ $ sudo rm -f  dummy.txt
 $ echo '/dev/volgrp01/lv01  /mnt/data  ext4  defaults 0 0' | sudo  tee -a /etc/fstab
 $ sudo mount -a
 
+## https://www.linuxtechi.com/how-to-create-lvm-partition-in-linux/
