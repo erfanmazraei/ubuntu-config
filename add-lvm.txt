@@ -1,0 +1,67 @@
+Step 1) Identify new attached raw disk
+$ sudo dmesg | grep -i sd
+$ sudo fdisk -l | grep -i /dev/sd
+Step 2) Create PV (Physical Volume)
+$ sudo apt install lvm2     // On Ubuntu / Debian
+$ sudo dnf install lvm2    // on RHEL / CentOS
+$ sudo pvcreate /dev/sdb
+  Physical volume "/dev/sdb" successfully created.
+
+To verify pv status run,
+
+
+$ sudo pvs /dev/sdb
+Or
+$ sudo pvdisplay /dev/sdb
+
+Step 3) Create VG (Volume Group)
+
+$ sudo vgcreate <vg_name>  <pv>
+
+$ sudo vgcreate volgrp01 /dev/sdb
+  Volume group "volgrp01" successfully created
+$
+
+$ sudo vgs volgrp01
+Or
+$ sudo vgdisplay volgrp01
+
+Step 4) Create LV (Logical Volume)
+
+$ sudo lvcreate -L <Size-of-LV> -n <LV-Name>   <VG-Name>
+
+$ sudo lvcreate -L 14G -n lv01 volgrp01
+  Logical volume "lv01" created.
+$
+
+Validate the status of lv, run
+
+$ sudo lvs /dev/volgrp01/lv01
+or
+$ sudo lvdisplay /dev/volgrp01/lv01
+
+Step 5) Format LVM Partition
+
+$ sudo mkfs.ext4 /dev/volgrp01/lv01
+
+$ sudo mkfs.xfs /dev/volgrp01/lv01
+
+$ sudo mkdir /mnt/data
+
+$ sudo mount /dev/volgrp01/lv01 /mnt/data/
+$ df -Th /mnt/data/
+Filesystem                Type  Size  Used Avail Use% Mounted on
+/dev/mapper/volgrp01-lv01 ext4   14G   24K   13G   1% /mnt/data
+$
+
+$ cd /mnt/data/
+$ echo "testing lvm partition" | sudo tee  dummy.txt
+$ cat dummy.txt
+testing lvm partition
+$
+$ sudo rm -f  dummy.txt
+
+
+$ echo '/dev/volgrp01/lv01  /mnt/data  ext4  defaults 0 0' | sudo  tee -a /etc/fstab
+$ sudo mount -a
+
