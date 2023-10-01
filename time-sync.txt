@@ -1,0 +1,14 @@
+vim /etc/systemd/timesyncd.conf
+add these lines :
+    [Time]
+    NTP=ir.pool.ntp.org
+    FallbackNTP=ntp.ubuntu.com
+    RootDistanceMaxSec=5
+    PollIntervalMinSec=32
+    PollIntervalMaxSec=2048
+    
+systemctl restart systemd-timesyncd
+ 
+
+check time sync with this command :
+    timedatectl
