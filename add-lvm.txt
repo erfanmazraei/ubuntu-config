@@ -66,3 +66,14 @@ $ echo '/dev/volgrp01/lv01  /mnt/data  ext4  defaults 0 0' | sudo  tee -a /etc/f
 $ sudo mount -a
 
 ## https://www.linuxtechi.com/how-to-create-lvm-partition-in-linux/
+
+
+
+### extend lvm :
+
+$ lvdisplay
+$ lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+$ resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+
+## https://packetpushers.net/ubuntu-extend-your-default-lvm-space/
+
